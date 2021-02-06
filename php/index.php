@@ -1,5 +1,4 @@
 <?php
-    $pdo = new PDO('mysql:dbname=mysql;host=localhost', 'root', '');
     //phpinfo();
 
 ?>
@@ -20,12 +19,12 @@
 <body>
 
     <div ng-controller="ModalDemoCtrl as pc" class="container modal-demo text-center">
-    	<h1 class="">31 Ice cream</h1>
-        <p>Welcome to Register!</p>
-        <button type="button" class="btn btn-primary center-block"" ng-click="pc.open()">Login.</button>
+    	<h1 class="">{{pc.title}}</h1>
+        <p>{{pc.discription}}</p>
+        <button type="button" class="btn btn-primary center-block"" ng-click="pc.open()">{{pc.login}}</button>
         <hr>
-        <button type="button" class="btn btn-success left-block"" ng-click="pc.open('lg')">日本語</button>
-        <button type="button" class="btn btn-info right-block"" ng-click="pc.open('sm')">English</button>
+        <button type="button" class="btn btn-success left-block"" ng-click="pc.change('ja')">日本語</button>
+        <button type="button" class="btn btn-info right-block"" ng-click="pc.change('en')">English</button>
         <hr>
         <div>accessed by : <strong>{{ pc.data }}</strong></div>
     </div>
