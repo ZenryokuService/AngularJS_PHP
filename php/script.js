@@ -3,7 +3,7 @@
 angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($uibModal, $log) {
   var pc = this;
-  pc.data = "Lorem Name Test";
+  pc.data = navigator.appName;
 
   pc.open = function (size) {
     var modalInstance = $uibModal.open({

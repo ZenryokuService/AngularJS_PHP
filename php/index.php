@@ -19,12 +19,15 @@
 </head>
 <body>
 
-    <div ng-controller="ModalDemoCtrl as pc" class="container modal-demo">
-    	<h1 class=""text-center>31 Ice cream</h1>
-        <button type="button" class="btn btn-primary" ng-click="pc.open()">Login for normal user.</button>
-        <button type="button" class="btn btn-success" ng-click="pc.open('lg')">Login for manager</button>
-        <button type="button" class="btn btn-info" ng-click="pc.open('sm')">Small modal Sample</button>
-        <div>data in controller : <strong>{{ pc.data }}</strong></div>
+    <div ng-controller="ModalDemoCtrl as pc" class="container modal-demo text-center">
+    	<h1 class="">31 Ice cream</h1>
+        <p>Welcome to Register!</p>
+        <button type="button" class="btn btn-primary center-block"" ng-click="pc.open()">Login.</button>
+        <hr>
+        <button type="button" class="btn btn-success left-block"" ng-click="pc.open('lg')">日本語</button>
+        <button type="button" class="btn btn-info right-block"" ng-click="pc.open('sm')">English</button>
+        <hr>
+        <div>accessed by : <strong>{{ pc.data }}</strong></div>
     </div>
 </body>
 
