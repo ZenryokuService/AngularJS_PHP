@@ -1,5 +1,7 @@
 {
 	"title": "31 Ice cream!!",
 	"discription": "Welcome to Register!",
-	"login": "Login"
+	"login": "Login",
+	"userName": "Name",
+	"passTitle": "Password"
 }

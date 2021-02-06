@@ -1,18 +1,24 @@
 <?php
 use PHPUnit\Framework\TestCase;
+require_once '../php/module/Dao.php';
 
-class StackTest extends TestCase
-{
-    public function testPushAndPop()
-    {
-        $stack = [];
-        $this->assertSame(0, count($stack));
+class StackTest extends TestCase {
 
-        array_push($stack, 'foo');
-        $this->assertSame('foo', $stack[count($stack)-1]);
-        $this->assertSame(1, count($stack));
+    public function testDaoLogin() {
+        $dao = Dao::getInstance();
+        $this->assertNotNull($dao);
 
-        $this->assertSame('foo', array_pop($stack));
-        $this->assertSame(0, count($stack));
+        // test1のログインテスト
+        $userData = $dao->login('test1', 'test');
+        $this->assertTrue(isset($userData));
+        $this->assertEquals('test1', $userData['user_name']);
+        $this->assertEquals('test', $userData['password']);
+
+        // test2のログインテスト
+        $userData2 = $dao->login('test2', 'test');
+        $this->assertTrue(isset($userData2));
+        $this->assertEquals('test2', $userData2['user_name']);
+        $this->assertEquals('test', $userData2['password']);
+
     }
 }

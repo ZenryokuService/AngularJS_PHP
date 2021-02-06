@@ -1,3 +1,5 @@
+// Globals
+var LANG;
 // Code goes here
 
 angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
@@ -6,6 +8,7 @@ angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($scope
   pc.data = navigator.appName;
 
   // デフォルトは日本語
+  LANG = "ja";
   var sufix = "_ja";
   loadJSON($http, sufix, pc);
 
@@ -21,21 +24,24 @@ angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($scope
       size: size,
       resolve: {
         data: function () {
+          pc.change(LANG);
           return pc.data;
         }
       }
     });
 
-    modalInstance.result.then(function () {
-      console.log("now I'll close the modal");
+    modalInstance.result.then(function (res) {
+      console.log(res);
     });
   };
 
   // 日本語と英語を切り替える
   pc.change = function(lang) {
     if (lang == 'ja') {
+      LANG = 'ja';
       loadJSON($http, "_ja", pc);
     } else {
+      LANG = 'en';
       loadJSON($http, "_en", pc);
     }
   };
@@ -52,6 +58,8 @@ function loadJSON($http, sufix, pc) {
       pc.title = res.data.title;
       pc.discription = res.data.discription;
       pc.login = res.data.login;
+      pc.userName = res.data.userName;
+      pc.passTitle = res.data.passTitle;
     }, function(res) {
       console.log(res);
     });
@@ -64,15 +72,19 @@ function loadJSON($http, sufix, pc) {
 /* モーダル画面の初期処理 */
 angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($http, $uibModalInstance, data) {
   var pc = this;
-  pc.title = "Login";
-  console.log(data);
-  pc.data = data;
+
+  if (LANG == 'ja') {
+	  loadJSON($http, "_ja", pc);
+  } else {
+	  loadJSON($http, "_en", pc);
+  }
 
   pc.ok = function () {
     //{...}
-console.log(pc.user);
-    $http.post("./module/Login.php", {"user": pc.user, "password": pc.password}).then(function(response) {
+
+    $http.post("./module/Login.php", {"user": pc.user, "password": pc.password, "lang": LANG}).then(function(response) {
       console.log(response);
+      document.getElementById("contentMain").innerHTML = response.data;
     });
     $uibModalInstance.close();
   };

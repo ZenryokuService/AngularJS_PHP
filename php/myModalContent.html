@@ -2,10 +2,18 @@
     <h3 class="modal-title" id="modal-title">{{pc.title}}</h3>
 </div>
 <div class="modal-body" id="modal-body">
-    <input type="text"  placeholder="user name"  ng-model="pc.user" />
-    <input type="password"  placeholder="password" ng-model="pc.password" />
+	<table>
+		<tr>
+			<td>{{pc.userName}}</td>
+			<td><input type="text"  placeholder="user name"  ng-model="pc.user" /></td>
+		</tr>
+		<tr>
+			<td>{{pc.passTitle}}</td>
+			<td><input type="password"  placeholder="user password"  ng-model="pc.password" /></td>
+		</tr>
+	</table>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="pc.ok()">OK</button>
-    <button class="btn btn-warning" type="button" ng-click="pc.cancel()">Cancel</button>
+    <button class="btn btn-primary" type="button"  ng-click="pc.ok()">OK</button>
+    <button class="btn btn-warning" type="button"  ng-click="pc.cancel()">Cancel</button>
 </div>

@@ -1,20 +1,20 @@
 <?php
-	class {
-		private $pdo;
+	class Dao {
+		private static $pdo;
 
 		/**
 		 * コンストラクタ、PDOを生成しDBコネクションを確立する。
 		 */
 		private function __construct() {
 			// DBコネクションを取得
-			$this->pdo = new PDO('mysql:dbname=mysql;host=localhost', 'root', '');
+			self::$pdo = new PDO('mysql:dbname=mysql;host=localhost', 'root', '');
 		}
 
 		/**
 		 * インスタンスを取得する、外部から、コンストラクタは使用させない。
 		 */
-		function getInstance() {
-			if (isset($this->pdo) == false) {
+		public static function getInstance() {
+			if (isset($pdo) == false) {
 				return new self();
 			}
 			return $this;
@@ -26,7 +26,7 @@
 		 * @return String ログイン出来たらユーザーデータ、出来なければ、文字列を返す
 		 */
 		function login($user, $password) {
-			$statement = $this->pdo->prepare("select id from usertable where usern_ame = :user password = :password");
+			$statement = self::$pdo->prepare("select * from usertable where user_name = :user and password = :password");
 			$statement->bindValue('user', $user);
 			$statement->bindValue('password', $password);
 
@@ -35,8 +35,8 @@
 			$userData = null;
 			try {
 				$userData = $statement->fetch();
-				if (isset($userData) == false) {
-					$userData = "Error";
+				if ($userData == false) {
+					$userData = 'Error';
 				}
 			} catch(Exception $e) {
 				$userData = $e->getMessage();

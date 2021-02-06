@@ -1,5 +1,7 @@
 {
 	"title": "サーティーワン アイスクリーム!!",
 	"discription": "レジスタ機能へようこそ!",
-	"login": "ログイン"
+	"login": "ログイン",
+	"userName": "名前",
+	"passTitle": "パスワード"
 }
