@@ -3,5 +3,8 @@
 	"discription": "レジスタ機能へようこそ!",
 	"login": "ログイン",
 	"userName": "名前",
-	"passTitle": "パスワード"
+	"passTitle": "パスワード",
+	"inputUser": "ユーザー名は必須入力です",
+	"inputPassword": "パスワードは必須入力です",
+	"exception": "想定外のエラーです、システム管理者に連絡してください。"
 }

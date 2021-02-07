@@ -1,43 +1,38 @@
 <?php
+    /*
+     * 入力チェックはJSで実装している
+     */
 	include './Dao.php';
 
-	function getLoginMessage($lang) {
+	function getLoginMessage($lang, $isException) {
+        $mesJa = 'ログインできません';
+        $mesEn = 'can not login ';
 	    if ($lang == 'ja') {
-	        return 'ログインできません';
+
+	        return $isException ? $mesJa : $mesJa . '<br/><a href="#">管理者に連絡</a>して下さい';
 	    } else {
-	        return "can not login ...";
+	        return $isException ? $mesEn : $mesEn . '<br/>Please contact <a href="#">manager</a>';
 	    }
 	}
-
-	function getInputMessage($lang) {
-	    if ($lang == 'ja') {
-	        return 'すべて入力してください';
-	    } else {
-	        return "Input all ...";
-	    }
-	}
-
+    // JSONの取得
 	$json = file_get_contents('php://input');
 	$data = json_decode($json);
 
 	// echo $data->user . "<br/>";
 	// echo $data->password . "<br/>";
 
-	$userData = null;
-	if (isset($data->user)) {
-	    $dao = Dao::getInstance();
-	    $userData = $dao->login($data->user, $data->password);
+	$dao = Dao::getInstance();
+	$user = $data->pc->user;
+	$userName = $data->pc->userName;
+	$userData = $dao->login($data->pc->user, $data->pc->password);
+
+	if ($userData == 'Error') {
+	    $arr = array('mes' => getLoginMessage($data->lang, true), 'isMessage' => true);
+	} else if ($userData == null) {
+	    $arr = array('mes' => getLoginMessage($data->lang, false), 'isMessage' => true);
 	} else {
-	    echo getInputMessage($data->lang);
+	    // JSONを返却する
+	    $arr = array('mes' => $userData, 'isMessage' => false);
 	}
-
-	if ($userData == 'Error' || $userData == null) {
-	    echo getLoginMessage($data->lang);
-	} else {
-?>
-
-	<div>{{pc.userName}}: <?php echo $data->user; ?></div>
-
-<?php
-	}
+	print(json_encode($arr));
 ?>

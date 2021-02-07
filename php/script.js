@@ -3,7 +3,7 @@ var LANG;
 // Code goes here
 
 angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($scope, $http, $uibModal, $log) {
+angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($scope, $http, $uibModal, $log, $cacheFactory) {	$cacheFactory('cacheId').destroy();
   var pc = this;
   pc.data = navigator.appName;
 
@@ -55,17 +55,29 @@ function loadJSON($http, sufix, pc) {
 
   try {
     $http.get(reqParam.url).then(function(res) {
-      pc.title = res.data.title;
-      pc.discription = res.data.discription;
-      pc.login = res.data.login;
-      pc.userName = res.data.userName;
-      pc.passTitle = res.data.passTitle;
+    	setData(pc, res.data);
     }, function(res) {
       console.log(res);
     });
   } catch(e) {
     console.log(e.message);
+    alert(pc.exception);
   }
+
+}
+
+/*
+ * data: レスポンスの下にあるデータオブジェクト「response.data」
+ */
+function setData(pc, data) {
+    pc.title = data.title;
+    pc.discription = data.discription;
+    pc.login = data.login;
+    pc.userName = data.userName;
+    pc.passTitle = data.passTitle;
+    pc.inputUser = data.inputUser;
+    //pc.inputPassword = data.inputPassword;
+
 
 }
 
@@ -80,11 +92,30 @@ angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($h
   }
 
   pc.ok = function () {
-    //{...}
+	  if (pc.user == "") {
+		  alert(pc.inputUser);
+		  return;
+	  }
+	  if (pc.password == "") {
+		  alert(pc.inputPassword);
+		  return;
+	  }
 
-    $http.post("./module/Login.php", {"user": pc.user, "password": pc.password, "lang": LANG}).then(function(response) {
-      console.log(response);
-      document.getElementById("contentMain").innerHTML = response.data;
+    //{Log.phpへ、POSTリクエストを送信}
+
+    $http.post("./module/Login.php", createRequest(pc)).then(function(response) {
+      setData(pc, response.data);
+      if (response.data.isMessage == true) {
+    	  // エラー時の処理
+    	  alert(response.data.mes);
+      } else {
+          $http.get("./menu.html").then(function (res) {
+        	  document.getElementById("contentMain").innerHTML = res.data;
+          }, function(e) {
+        	  alsert(e);
+          });
+      }
+      //document.getElementById("contentMain").innerHTML = response.data;
     });
     $uibModalInstance.close();
   };
@@ -94,3 +125,9 @@ angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($h
     $uibModalInstance.dismiss('cancel');
   };
 });
+
+function createRequest(pc) {
+	return {"lang": LANG,
+			"pc": pc
+			};
+}

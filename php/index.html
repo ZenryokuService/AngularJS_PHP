@@ -18,9 +18,12 @@
     <div ng-controller="ModalDemoCtrl as pc" class="container modal-demo text-center">
     	<h1 class="">{{pc.title}}</h1>
         <p>{{pc.discription}}</p>
+        <hr>
+
         <div id = "contentMain">
 	        <button type="button" class="btn btn-primary center-block"" ng-click="pc.open()">{{pc.login}}</button>
         </div>
+
         <hr>
         <button type="button" class="btn btn-success left-block"" ng-click="pc.change('ja')">日本語</button>
         <button type="button" class="btn btn-info right-block"" ng-click="pc.change('en')">English</button>

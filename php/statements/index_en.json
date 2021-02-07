@@ -3,5 +3,8 @@
 	"discription": "Welcome to Register!",
 	"login": "Login",
 	"userName": "Name",
-	"passTitle": "Password"
+	"passTitle": "Password",
+	"inputUser": "user is required.",
+	"inputPassword": "password is required",
+	"exception": "uexpected exception, please contact system manager."
 }
