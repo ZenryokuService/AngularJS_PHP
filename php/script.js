@@ -2,8 +2,9 @@
 var LANG;
 // Code goes here
 
-angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($scope, $http, $uibModal, $log, $cacheFactory) {	$cacheFactory('cacheId').destroy();
+var app = angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+app.controller('ModalDemoCtrl', function ($scope, $http, $uibModal, $log, $cacheFactory) {
+  //$cacheFactory('cacheId').destroy();
   var pc = this;
   pc.data = navigator.appName;
 
@@ -18,7 +19,7 @@ angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($scope
       animation: true,
       ariaLabelledBy: 'modal-title',
       ariaDescribedBy: 'modal-body',
-      templateUrl: 'myModalContent.html',
+      templateUrl: './views/myModalContent.html',
       controller: 'ModalInstanceCtrl',
       controllerAs: 'pc',
       size: size,
@@ -31,6 +32,7 @@ angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($scope
     });
 
     modalInstance.result.then(function (res) {
+      //$scope.init(pc);
       console.log(res);
     });
   };
@@ -76,7 +78,8 @@ function setData(pc, data) {
     pc.userName = data.userName;
     pc.passTitle = data.passTitle;
     pc.inputUser = data.inputUser;
-    //pc.inputPassword = data.inputPassword;
+    pc.inputPassword = data.inputPassword;
+    pc.mode = data.fravorMode;
 
 
 }
@@ -92,11 +95,11 @@ angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($h
   }
 
   pc.ok = function () {
-	  if (pc.user == "") {
+	  if (pc.user == "" || pc.user == undefined) {
 		  alert(pc.inputUser);
 		  return;
 	  }
-	  if (pc.password == "") {
+	  if (pc.password == "" || pc.password == undefined) {
 		  alert(pc.inputPassword);
 		  return;
 	  }
@@ -109,8 +112,9 @@ angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($h
     	  // エラー時の処理
     	  alert(response.data.mes);
       } else {
-          $http.get("./menu.html").then(function (res) {
-        	  document.getElementById("contentMain").innerHTML = res.data;
+          $http.get("./views/menu.html").then(function (res) {
+
+        	document.getElementById("contentMain").innerHTML = res.data;
           }, function(e) {
         	  alsert(e);
           });
