@@ -1,10 +1,8 @@
-app.controller('MenuCtrl', function ($scope, $http, $uibModal, $log, $cacheFactory) {
+app.controller('MenuCtrl', function ($scope, $controller) {
 
-	var mc = this;
-	loadJSON($http, "_" + LANG, mc);
-	$scope.initMenu = function openMenu(pc) {
-		console.log(pc.mode);
-	}
+	angular.extend(this, $controller('ModalInstanceCtrl', {$scope: $scope}));
+    document.getElementById("menuContent").innerHTML = $scope.pc.content;
+	//loadJSON($http, "_" + LANG, mc);
 });
 
 function loadJSON($http, sufix, mc) {

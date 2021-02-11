@@ -1,9 +1,21 @@
 // Globals
 var LANG;
-// Code goes here
 
-var app = angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-app.controller('ModalDemoCtrl', function ($scope, $http, $uibModal, $log, $cacheFactory) {
+// Code goes here
+var app = angular.module('ui.bootstrap.demo', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+
+app.config(function($routeProvider) {
+	$routeProvider
+		.when("/", {
+			templateUrl: "views/login.htm",
+			controller: "ModalDemoCtrl"
+		}).when("/menu", {
+			templateUrl: "views/menu.htm",
+			controller: "MenuCtrl"
+		});
+});
+
+app.controller('ModalDemoCtrl', function ($scope, $http, $uibModal, $log) {
   //$cacheFactory('cacheId').destroy();
   var pc = this;
   pc.data = navigator.appName;
@@ -35,9 +47,9 @@ app.controller('ModalDemoCtrl', function ($scope, $http, $uibModal, $log, $cache
     modalInstance.result.then(function () {
         if (LANG == 'ja') {
             loadJSON($http, "_ja", pc);
-          } else {
+        } else {
             loadJSON($http, "_en", pc);
-          }
+        }
     });
   };
 
@@ -119,9 +131,11 @@ angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($s
     	  return;
       }
       if (response.data.isMessage == false) {
-    	  openMenu($uibModal, pc);
+    	  $scope.pc.content = response.data.content;
+          location.href = '#!menu';
+    	  //openMenu($uibModal, pc);
       }
-      document.getElementById("contentMain").innerHTML = response.data.content;
+      //document.getElementById("contentMain").innerHTML = response.data.content;
     });
     $uibModalInstance.close();
   };

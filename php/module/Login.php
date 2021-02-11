@@ -58,7 +58,7 @@
 
 	    $fravors = $dao->selectFravors();
 	    $select = getSelection($data->lang);
-/*
+
 $menuContent =<<< EOD
 	<div ng-controller="MenuCtrl as mc" ng-init="init()" class="container modal-demo text-center">
 	<div id="menuTitle" ng-model="pc.fravorMode"></div>
@@ -77,10 +77,9 @@ $fravorContent = <<<EOD
 EOD;
     $items = $items . $fravorContent;
     }
-*/
         // JSONを返却する
-//	    $arr = array('mes' => $userData, 'content' => $menuContent . $items, 'isMessage' => false);
-	    $arr = array('mes' => $userData, 'isMessage' => false);
+	    $arr = array('mes' => $userData, 'content' => $menuContent . $items, 'isMessage' => false);
+//	    $arr = array('mes' => $userData, 'isMessage' => false);
 	}
 	print(json_encode($arr));
 ?>
