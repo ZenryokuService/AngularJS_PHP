@@ -26,7 +26,7 @@
 		 * @return String ログイン出来たらユーザーデータ、出来なければ、文字列を返す
 		 */
 		function login($user, $password) {
-			$statement = self::$pdo->prepare("select * from usertable where user_name = :user and password = :password");
+			$statement = self::$pdo->prepare("select user_name, role, discription from usertable where user_name = :user and password = :password");
 			$statement->bindValue('user', $user);
 			$statement->bindValue('password', $password);
 
@@ -42,6 +42,20 @@
 				$userData = $e->getMessage();
 			}
 			return $userData;
+		}
+
+		/**
+		 * Fravorテーブルからフレーバーを取得する
+		 */
+		function selectFravors() {
+		    $statement = self::$pdo->prepare("select * from fravors");
+		    $statement->execute();
+
+		    $array = array();
+		    while ($row = $statement->fetch()) {
+		        array_push($array, $row);
+		    }
+		    return $array;
 		}
 	}
 ?>

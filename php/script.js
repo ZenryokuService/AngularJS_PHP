@@ -13,6 +13,7 @@ app.controller('ModalDemoCtrl', function ($scope, $http, $uibModal, $log, $cache
   var sufix = "_ja";
   loadJSON($http, sufix, pc);
 
+  var size = 1;
   // モーダル画面を開く
   pc.open = function (size) {
     var modalInstance = $uibModal.open({
@@ -31,9 +32,12 @@ app.controller('ModalDemoCtrl', function ($scope, $http, $uibModal, $log, $cache
       }
     });
 
-    modalInstance.result.then(function (res) {
-      //$scope.init(pc);
-      console.log(res);
+    modalInstance.result.then(function () {
+        if (LANG == 'ja') {
+            loadJSON($http, "_ja", pc);
+          } else {
+            loadJSON($http, "_en", pc);
+          }
     });
   };
 
@@ -47,6 +51,8 @@ app.controller('ModalDemoCtrl', function ($scope, $http, $uibModal, $log, $cache
       loadJSON($http, "_en", pc);
     }
   };
+
+
 
 });// end of ModalDemoCtrl
 
@@ -65,7 +71,6 @@ function loadJSON($http, sufix, pc) {
     console.log(e.message);
     alert(pc.exception);
   }
-
 }
 
 /*
@@ -84,8 +89,9 @@ function setData(pc, data) {
 
 }
 
+
 /* モーダル画面の初期処理 */
-angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($http, $uibModalInstance, data) {
+angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($scope, $http, $uibModal, $uibModalInstance , data) {
   var pc = this;
 
   if (LANG == 'ja') {
@@ -105,21 +111,17 @@ angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($h
 	  }
 
     //{Log.phpへ、POSTリクエストを送信}
-
     $http.post("./module/Login.php", createRequest(pc)).then(function(response) {
       setData(pc, response.data);
       if (response.data.isMessage == true) {
     	  // エラー時の処理
     	  alert(response.data.mes);
-      } else {
-          $http.get("./views/menu.html").then(function (res) {
-
-        	document.getElementById("contentMain").innerHTML = res.data;
-          }, function(e) {
-        	  alsert(e);
-          });
+    	  return;
       }
-      //document.getElementById("contentMain").innerHTML = response.data;
+      if (response.data.isMessage == false) {
+    	  openMenu($uibModal, pc);
+      }
+      document.getElementById("contentMain").innerHTML = response.data.content;
     });
     $uibModalInstance.close();
   };
@@ -128,7 +130,38 @@ angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($h
     //{...}
     $uibModalInstance.dismiss('cancel');
   };
-});
+
+
+//メニューモーダルを開く
+  function openMenu($uibModal, pc) {
+	  var size = 1;
+        var menuModalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+  	      ariaDescribedBy: 'modal-body',
+  	      templateUrl: './views/menu.html',
+  	      controller: 'MenuCtrl',
+  	      controllerAs: 'mc',
+  	      size: size,
+  	      resolve: {
+  	        data: function () {
+  	          //pc.change(LANG);
+  	          return pc.data;
+  	        }
+  	      }
+        });
+
+    menuModalInstance.result.then(function () {
+        if (LANG == 'ja') {
+            loadJSON($http, "_ja", pc);
+          } else {
+            loadJSON($http, "_en", pc);
+          }
+        //openMenu(pc
+    });
+  }
+
+}); // Menu Modal
 
 function createRequest(pc) {
 	return {"lang": LANG,

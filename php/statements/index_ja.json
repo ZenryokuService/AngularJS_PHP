@@ -7,5 +7,6 @@
 	"inputUser": "ユーザー名は必須入力です",
 	"inputPassword": "パスワードは必須入力です",
 	"exception": "想定外のエラーです、システム管理者に連絡してください。",
-	"fravorMode": "商品選択画面"
+	"fravorMode": "商品選択画面",
+	"select": "選択"
 }

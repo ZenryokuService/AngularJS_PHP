@@ -12,13 +12,20 @@ class StackTest extends TestCase {
         $userData = $dao->login('test1', 'test');
         $this->assertTrue(isset($userData));
         $this->assertEquals('test1', $userData['user_name']);
-        $this->assertEquals('test', $userData['password']);
+        $this->assertEquals('1', $userData['role']);
 
         // test2のログインテスト
         $userData2 = $dao->login('test2', 'test');
         $this->assertTrue(isset($userData2));
         $this->assertEquals('test2', $userData2['user_name']);
-        $this->assertEquals('test', $userData2['password']);
+        $this->assertEquals('2', $userData2['role']);
+
+        // fravorsのテスト
+        $fravors = $dao->selectFravors();
+        //var_dump($fravors);
+        $this->assertTrue(isset($userData2));
+        $this->assertEquals('1', $fravors[0]['id']);
+
 
     }
 }

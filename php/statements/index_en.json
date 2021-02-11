@@ -7,5 +7,6 @@
 	"inputUser": "user is required.",
 	"inputPassword": "password is required",
 	"exception": "uexpected exception, please contact system manager.",
-	"fravorMode": "Select fravors"
+	"fravorMode": "Select fravors",
+	"select": "select"
 }
